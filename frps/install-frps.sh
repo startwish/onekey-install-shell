@@ -13,10 +13,10 @@ str_program_dir="/usr/local/${program_name}"
 program_init="/etc/init.d/${program_name}"
 program_config_file="frps.ini"
 ver_file="/tmp/.frp_ver.sh"
-program_version_link="https://raw.githubusercontent.com/clangcn/onekey-install-shell/master/frps/version.sh"
-str_install_shell=https://raw.githubusercontent.com/clangcn/onekey-install-shell/master/frps/install-frps.sh
+program_version_link="https://raw.githubusercontent.com/startwish/onekey-install-shell/master/frps/version.sh"
+str_install_shell=https://raw.githubusercontent.com/startwish/onekey-install-shell/master/frps/install-frps.sh
 shell_update(){
-    fun_clangcn "clear"
+    fun_startwish "clear"
     echo "Check updates for shell..."
     remote_shell_version=`wget --no-check-certificate -qO- ${str_install_shell} | sed -n '/'^version'/p' | cut -d\" -f2`
     if [ ! -z ${remote_shell_version} ]; then
@@ -39,7 +39,7 @@ shell_update(){
         fi
     fi
 }
-fun_clangcn(){
+fun_startwish(){
     local clear_flag=""
     clear_flag=$1
     if [[ ${clear_flag} == "clear" ]]; then
@@ -68,7 +68,7 @@ fun_set_text_color(){
 # Check if user is root
 rootness(){
     if [[ $EUID -ne 0 ]]; then
-        fun_clangcn
+        fun_startwish
         echo "Error:This script must be run as root!" 1>&2
         exit 1
     fi
@@ -329,14 +329,14 @@ fun_input_max_pool_count(){
     fun_check_number "max_pool_count" "${def_max_pool}" "${input_max_pool_count}"
 }
 pre_install_clang(){
-    fun_clangcn
+    fun_startwish
     echo -e "Check your server setting, please wait..."
     disable_selinux
     if [ -s ${str_program_dir}/${program_name} ] && [ -s ${program_init} ]; then
         echo "${program_name} is installed!"
     else
         clear
-        fun_clangcn
+        fun_startwish
         fun_get_version
         fun_getServer
         fun_getVer
@@ -604,7 +604,7 @@ fi
     echo " done"
     [ -s ${program_init} ] && ln -s ${program_init} /usr/bin/${program_name}
     ${program_init} start
-    fun_clangcn
+    fun_startwish
     #install successfully
     echo ""
     echo "Congratulations, ${program_name} install completed!"
@@ -645,7 +645,7 @@ configure_program_server_clang(){
 }
 ############################### uninstall ##################################
 uninstall_program_server_clang(){
-    fun_clangcn
+    fun_startwish
     if [ -s ${program_init} ] || [ -s ${str_program_dir}/${program_name} ] ; then
         echo "============== Uninstall ${program_name} =============="
         str_uninstall="n"
@@ -781,7 +781,7 @@ update_config_clang(){
     fi
 }
 update_program_server_clang(){
-    fun_clangcn "clear"
+    fun_startwish "clear"
     if [ -s ${program_init} ] || [ -s ${str_program_dir}/${program_name} ] ; then
         echo "============== Update ${program_name} =============="
         update_config_clang
@@ -862,7 +862,7 @@ update)
     update_program_server_clang 2>&1 | tee /root/${program_name}-update.log
     ;;
 *)
-    fun_clangcn
+    fun_startwish
     echo "Arguments error! [${action} ]"
     echo "Usage: `basename $0` {install|uninstall|update|config}"
     RET_VAL=1
