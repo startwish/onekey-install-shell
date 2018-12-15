@@ -32,7 +32,7 @@ RET_VAL=0
 
 [ -x ${BIN} ] || exit 0
 strLog=""
-fun_clangcn()
+fun_startwish()
 {
     echo ""
     echo "+--------------------------------------------------+"
@@ -60,7 +60,7 @@ fun_load_config(){
 fun_start()
 {
     if [ "${arg1}" = "start" ]; then
-      fun_clangcn
+      fun_startwish
     fi
     if fun_check_run; then
         echo "${ProgramName} (pid $PID) already running."
@@ -81,7 +81,7 @@ fun_start()
 
 fun_stop(){
     if [ "${arg1}" = "stop" ] || [ "${arg1}" = "restart" ]; then
-      fun_clangcn
+      fun_startwish
     fi
     if fun_check_run; then
         echo -n "Stoping ${ProgramName} (pid $PID)... "
@@ -157,7 +157,7 @@ case "${arg1}" in
         fun_help
     ;;
     *)
-        fun_clangcn
+        fun_startwish
         echo "Usage: $SCRIPTNAME {start|stop|restart|status|config|version}"
         RET_VAL=1
     ;;
